@@ -1,0 +1,24 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "user-application",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-06-17",
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_id": "5b7403f4-9980-49b3-b4e8-29af1d2dbf99",
+      "remote": true,
+    },
+  ],
+}
