@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite --port 3000 --mode development",
     "start": "vite --port 3000",
-    "build:stage": "vite build --mode stage && tsc",
-    "build:production": "vite build --mode production && tsc",
+    "build:stage": "CLOUDFLARE_ENV=stage vite build --mode stage && tsc",
+    "build:production": "CLOUDFLARE_ENV=production vite build --mode production && tsc",
     "serve": "vite preview",
     "test": "vitest run",
     "cf-typegen:stage": "wrangler types --env-interface Env --env stage",
