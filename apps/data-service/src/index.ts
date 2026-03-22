@@ -3,6 +3,9 @@ import { QueueMessageSchema, QueueMessageType } from '@repo/data-ops/zod-schema/
 import { WorkerEntrypoint } from 'cloudflare:workers';
 import { app } from './hono/app';
 import { handleLinkClick } from './queue-handlers/link-clicks';
+export { EvaluationSchedular } from './durable-objects/evaluations-schedular';
+export { LinkClickTracker } from './durable-objects/link-click-tracker';
+export { DestinationEvaluationWorkflow } from './workflows/destination-evaluation';
 
 export default class DataService extends WorkerEntrypoint<Env> {
 	constructor(ctx: ExecutionContext, env: Env) {

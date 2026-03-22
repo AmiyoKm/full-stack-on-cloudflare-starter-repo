@@ -1,5 +1,6 @@
 import { getLink } from '@repo/data-ops/queries/links';
 import { linkSchema, LinkSchemaType } from '@repo/data-ops/zod-schema/links';
+import { LinkClickMessageType } from '@repo/data-ops/zod-schema/queue';
 
 async function getLinkInfoFromKV(env: Env, id: string) {
 	const link = await env.KV.get(id);
@@ -52,4 +53,27 @@ export function getDestinationForCountry(linkInfo: LinkSchemaType, countryCode?:
 	}
 
 	return linkInfo.destinations.default;
+}
+
+export async function scheduleEvaluationWorkflow(env: Env, event: LinkClickMessageType) {
+	const doId = env.EVALUATION_SCHEDULAR.idFromName(`${event.data.id}:${event.data.destination}`);
+	const durableObject = env.EVALUATION_SCHEDULAR.get(doId);
+
+	await durableObject.collectLinkClick({
+		accountId: event.data.accountId,
+		linkId: event.data.id,
+		destinationUrl: event.data.destination,
+		destinationCountryCode: event.data.country || 'UNKNOWN',
+	});
+}
+
+export async function captureLinkClickInBackground(env: Env, event: LinkClickMessageType) {
+	await env.QUEUE.send(event);
+
+	const doId = env.LINK_CLICK_TRACKER_OBJECT.idFromName(event.data.accountId);
+	const durableObject = env.LINK_CLICK_TRACKER_OBJECT.get(doId);
+
+	if (!event.data.latitude || !event.data.longitude || !event.data.country) return;
+
+	await durableObject.addClick(event.data.latitude, event.data.longitude, event.data.country, Date.now());
 }
