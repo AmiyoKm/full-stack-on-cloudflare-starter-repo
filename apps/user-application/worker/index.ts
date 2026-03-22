@@ -1,23 +1,9 @@
 import { initDatabase } from "@repo/data-ops/database";
-import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { createContext } from "./trpc/context";
-import { appRouter } from "./trpc/router";
+import { app } from "./hono/app";
 
 export default {
   async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-
-    if (!url.pathname.startsWith("/trpc")) {
-      return env.ASSETS.fetch(request);
-    }
-
     initDatabase(env.DB);
-    return fetchRequestHandler({
-      endpoint: "/trpc",
-      req: request,
-      router: appRouter,
-      createContext: () =>
-        createContext({ req: request, env: env, workerCtx: ctx }),
-    });
+    return app.fetch(request, env, ctx);
   },
 } satisfies ExportedHandler<ServiceBindings>;
