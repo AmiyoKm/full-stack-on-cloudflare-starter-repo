@@ -14,18 +14,38 @@
   "observability": {
     "enabled": true,
   },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_id": "5b7403f4-9980-49b3-b4e8-29af1d2dbf99",
-      "remote": true,
+  "env": {
+    "stage": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_id": "3aadbe41-f252-4390-95d5-4c9bbcfdda9e",
+          "remote": true,
+        },
+      ],
+      "services": [
+        {
+          "binding": "BACKEND_SERVICE",
+          "service": "data-service-stage",
+          "remote": true,
+        },
+      ],
     },
-  ],
-  "services": [
-    {
-      "binding": "BACKEND_SERVICE",
-      "service": "data-service",
-      "remote": true,
+    "production": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_id": "96f04056-a862-4064-a020-8e389e91c2ae",
+          "remote": true,
+        },
+      ],
+      "services": [
+        {
+          "binding": "BACKEND_SERVICE",
+          "service": "data-service-production",
+          "remote": true,
+        },
+      ],
     },
-  ],
+  },
 }
