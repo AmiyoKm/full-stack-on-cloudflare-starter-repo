@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000 --mode development",
+    "dev": "vite --port 3000 --mode stage",
     "start": "vite --port 3000",
     "build:stage": "CLOUDFLARE_ENV=stage vite build --mode stage && tsc",
     "build:production": "CLOUDFLARE_ENV=production vite build --mode production && tsc",
