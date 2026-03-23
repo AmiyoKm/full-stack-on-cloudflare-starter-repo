@@ -15,12 +15,13 @@
   "observability": {
     "enabled": true,
   },
+  "preview_urls": true,
   "env": {
     "stage": {
       "routes": [
         {
           "custom_domain": true,
-          "pattern": "smartlink.stage.amiyo.lol",
+          "pattern": "smartlink-stg.amiyo.lol",
         },
       ],
       "d1_databases": [
@@ -42,7 +43,7 @@
       "routes": [
         {
           "custom_domain": true,
-          "pattern": "smartlink.prod.amiyo.lol",
+          "pattern": "smartlink.amiyo.lol",
         },
       ],
       "d1_databases": [
