@@ -1,3 +1,4 @@
+import { getAuth } from "@repo/data-ops/auth";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { Hono } from "hono";
 import { createContext } from "../trpc/context";
@@ -21,4 +22,12 @@ app.get("/click-socket", async (c) => {
 
   const proxiedRequest = new Request(c.req.raw, { headers });
   return c.env.BACKEND_SERVICE.fetch(proxiedRequest);
+});
+
+app.on(["GET", "POST"], "/api/auth/*", (c) => {
+  const auth = getAuth({
+    clientId: c.env.GOOGLE_CLIENT_ID,
+    clientSecret: c.env.GOOGLE_CLIENT_SECRET,
+  });
+  return auth.handler(c.req.raw);
 });
